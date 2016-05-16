@@ -13,11 +13,17 @@
     tools:context=".home.HomeActivity"
     tools:showIn="@layout/activity_main">
 
+    <FrameLayout
+        android:id="@+id/contact_picker_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"/>
+
     <EditText
         android:id="@+id/edit_addressee_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/contact_picker_fragment_container"
         android:hint="number..."
         android:imeOptions="actionNext"
         android:inputType="phone"
