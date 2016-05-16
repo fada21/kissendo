@@ -46,14 +46,7 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if (savedInstanceState == null) {
-            final FragmentManager sfm = getSupportFragmentManager();
-            sfm.beginTransaction()
-                    .add(R.id.contact_picker_fragment_container,
-                         new ContactPickerFragment(),
-                         ContactPickerFragment.TAG_ContactPickerFragment)
-                    .commit();
-        }
+        addContactPickerFragment(savedInstanceState);
 
         phoneNumberInput = (EditText) findViewById(R.id.edit_sms_content);
         smsContentInput = (EditText) findViewById(R.id.edit_sms_content);
@@ -81,8 +74,15 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    private void pickContact() {
-
+    private void addContactPickerFragment(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            final FragmentManager sfm = getSupportFragmentManager();
+            sfm.beginTransaction()
+                    .add(R.id.contact_picker_fragment_container,
+                         new ContactPickerFragment(),
+                         ContactPickerFragment.TAG_ContactPickerFragment)
+                    .commit();
+        }
     }
 
     private void showNotification() {
