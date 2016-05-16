@@ -30,6 +30,7 @@ import static com.fada21.android.kissendo.utils.Utils.hasSmsPermission;
 public class HomeActivity extends AppCompatActivity {
 
     public static final int SMS_PERMISSION_REQUEST_CODE = 1;
+    public static final int CONTACTS_READ_PERMISSION_REQUEST_CODE = 2;
     private CallbackSMSPermissions smsPermissionsCallback;
 
     private EditText phoneNumberInput;
