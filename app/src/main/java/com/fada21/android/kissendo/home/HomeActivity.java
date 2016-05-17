@@ -17,7 +17,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,13 +31,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.fada21.android.kissendo.sending.SendSMSBroadcastReceiver.createIntent;
+import static com.fada21.android.kissendo.utils.Consts.KISSENDO_NOTIFICATION_ID;
 import static com.fada21.android.kissendo.utils.Utils.hasSmsPermission;
 
 public class HomeActivity extends AppCompatActivity {
 
-    public final int KISSENDO_NOTIFICATION_ID = 0x0000ad01;
     public static final int SMS_PERMISSION_REQUEST_CODE = 1;
     public static final int CONTACTS_READ_PERMISSION_REQUEST_CODE = 2;
+
     private CallbackSMSPermissions smsPermissionsCallback;
 
     @BindView(R.id.edit_sms_content) EditText smsContentInput;
@@ -62,7 +62,8 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    private void setupFAB() {FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+    private void setupFAB() {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if (fab != null) {
             fab.setOnClickListener(view -> {
                 final Intent broadcastIntent = createIntent(getNumber(), getMessage());
