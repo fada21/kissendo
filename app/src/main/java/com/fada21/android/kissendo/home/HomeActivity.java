@@ -5,8 +5,11 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -23,40 +26,43 @@ import android.widget.EditText;
 
 import com.fada21.android.kissendo.R;
 import com.fada21.android.kissendo.contact.ContactPickerFragment;
+import com.fada21.android.kissendo.utils.Consts;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import static com.fada21.android.kissendo.sending.SendSMSBroadcastReceiver.createIntent;
 import static com.fada21.android.kissendo.utils.Utils.hasSmsPermission;
 
 public class HomeActivity extends AppCompatActivity {
 
+    public final int KISSENDO_NOTIFICATION_ID = 0x0000ad01;
     public static final int SMS_PERMISSION_REQUEST_CODE = 1;
     public static final int CONTACTS_READ_PERMISSION_REQUEST_CODE = 2;
     private CallbackSMSPermissions smsPermissionsCallback;
 
-    private EditText phoneNumberInput;
-    private EditText smsContentInput;
+    @BindView(R.id.edit_sms_content) EditText smsContentInput;
+    @BindView(R.id.btn_issue_notification) Button btnNotification;
 
     private final String defaultMessage = "test";
 
-    private Button btnNotification;
-    private int KISSENDO_NOTIFICATION_ID = 0x0000ad01;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         addContactPickerFragment(savedInstanceState);
 
-        phoneNumberInput = (EditText) findViewById(R.id.edit_sms_content);
-        smsContentInput = (EditText) findViewById(R.id.edit_sms_content);
-
-        btnNotification = (Button) findViewById(R.id.btn_issue_notification);
         btnNotification.setOnClickListener(v -> showNotification());
 
+        setupFAB();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+    }
+
+    private void setupFAB() {FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if (fab != null) {
             fab.setOnClickListener(view -> {
                 final Intent broadcastIntent = createIntent(getNumber(), getMessage());
@@ -72,7 +78,6 @@ public class HomeActivity extends AppCompatActivity {
             });
             fab.requestFocus();
         }
-
     }
 
     private void addContactPickerFragment(Bundle savedInstanceState) {
@@ -104,19 +109,16 @@ public class HomeActivity extends AppCompatActivity {
         return builder.build();
     }
 
-    private String getNumber() {
-        final String text = phoneNumberInput.getText().toString();
-        if (TextUtils.isEmpty(text) || !PhoneNumberUtils.isGlobalPhoneNumber(text)) {
-            throw new IllegalStateException("Nope");
-        } else return text;
-    }
-
-
     private String getMessage() {
         final String text = smsContentInput.getText().toString();
         if (TextUtils.isEmpty(text)) {
             return defaultMessage;
         } else return text;
+    }
+
+    @NonNull private String getNumber() {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        return prefs.getString(Consts.PREF_NUMBER, "");
     }
 
     private void checkSmsPermissions(CallbackSMSPermissions callback) {

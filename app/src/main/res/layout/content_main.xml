@@ -20,20 +20,10 @@
         android:layout_alignParentTop="true"/>
 
     <EditText
-        android:id="@+id/edit_addressee_number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/contact_picker_fragment_container"
-        android:hint="number..."
-        android:imeOptions="actionNext"
-        android:inputType="phone"
-        android:lines="1"/>
-
-    <EditText
         android:id="@+id/edit_sms_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edit_addressee_number"
+        android:layout_below="@id/contact_picker_fragment_container"
         android:hint="sms message..."
         android:imeOptions="actionGo"
         android:inputType="text"
