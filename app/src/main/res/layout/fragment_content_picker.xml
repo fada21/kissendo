@@ -4,10 +4,12 @@
               android:layout_height="wrap_content"
               android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/btn_contact_picker"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Contact picker fragment"/>
+        android:layout_gravity="center_horizontal"
+        android:text="Contact picker"/>
 
     <EditText
         android:id="@+id/edit_addressee_number"
